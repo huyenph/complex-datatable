@@ -11,27 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StyledTableBody = exports.StyledTableCell = void 0;
 var react_1 = require("react");
 var styles_1 = require("@mui/material/styles");
 var material_1 = require("@mui/material");
 var utils_1 = require("@mui/utils");
-exports.StyledTableCell = (0, styles_1.styled)(material_1.TableCell)(function (_a) {
-    var theme = _a.theme;
-    return ({
-        textTransform: "initial",
-        color: theme.palette.common.black,
-    });
-});
-exports.StyledTableBody = (0, styles_1.styled)(material_1.TableBody)(function (_a) {
-    var theme = _a.theme;
-    return ({
-        textTransform: "initial",
-        "& .MuiTableCell-body": {
-            color: theme.palette.grey[800],
-        },
-    });
-});
+var styles_2 = require("../styles");
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -64,20 +48,20 @@ function ComplexTableHead(props) {
     }; };
     return (<material_1.TableHead>
       <material_1.TableRow>
-        {onSelectAllClick !== undefined && (<exports.StyledTableCell padding="checkbox">
+        {onSelectAllClick !== undefined && (<styles_2.StyledTableCell padding="checkbox">
             <material_1.Checkbox color="primary" indeterminate={numSelected > 0 && numSelected < rowCount} checked={rowCount > 0 && numSelected === rowCount} onChange={onSelectAllClick} inputProps={{
                 "aria-label": "select all desserts",
             }}/>
-          </exports.StyledTableCell>)}
+          </styles_2.StyledTableCell>)}
 
-        {headCells.map(function (headCell) { return (<exports.StyledTableCell key={headCell.id} align={headCell.align} padding={headCell.disablePadding ? "none" : "normal"} sortDirection={orderBy === headCell.id ? order : false}>
+        {headCells.map(function (headCell) { return (<styles_2.StyledTableCell key={headCell.id} align={headCell.align} padding={headCell.disablePadding ? "none" : "normal"} sortDirection={orderBy === headCell.id ? order : false}>
             <material_1.TableSortLabel active={orderBy === headCell.id} direction={orderBy === headCell.id ? order : "asc"} onClick={createSortHandler(headCell.id)}>
               {headCell.label}
               {orderBy === headCell.id ? (<material_1.Box component="span" sx={utils_1.visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </material_1.Box>) : null}
             </material_1.TableSortLabel>
-          </exports.StyledTableCell>); })}
+          </styles_2.StyledTableCell>); })}
       </material_1.TableRow>
     </material_1.TableHead>);
 }
@@ -153,17 +137,17 @@ function ComplexDataTable(props) {
       <material_1.TableContainer>
         <material_1.Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
           <ComplexTableHead headCells={headCells} numSelected={selected ? selected.length : 0} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={rows.length}/>
-          <exports.StyledTableBody>
+          <styles_2.StyledTableBody>
             {visibleRows.map(function (row, index) {
             var isItemSelected = isSelected(row.name);
             var labelId = "Complex-table-checkbox-".concat(index);
             return (<>
                   <material_1.TableRow hover onClick={function (event) { return onHandleClick(event, row.name); }} role={handleSelectAllClick !== undefined ? "checkbox" : "list"} aria-checked={isItemSelected} tabIndex={-1} key={row.name} selected={isItemSelected} sx={{ cursor: "pointer" }}>
-                    {handleSelectAllClick !== undefined && (<exports.StyledTableCell padding="checkbox">
+                    {handleSelectAllClick !== undefined && (<styles_2.StyledTableCell padding="checkbox">
                         <material_1.Checkbox color="primary" checked={isItemSelected} inputProps={{
                         "aria-labelledby": labelId,
                     }}/>
-                      </exports.StyledTableCell>)}
+                      </styles_2.StyledTableCell>)}
                     {renderRowCells(row)}
                   </material_1.TableRow>
                   {renderCollapseRow && renderCollapseRow(row)}
@@ -172,9 +156,9 @@ function ComplexDataTable(props) {
             {emptyRows > 0 && (<material_1.TableRow style={{
                 height: (dense ? 33 : 53) * emptyRows,
             }}>
-                <exports.StyledTableCell colSpan={rows.length}/>
+                <styles_2.StyledTableCell colSpan={rows.length}/>
               </material_1.TableRow>)}
-          </exports.StyledTableBody>
+          </styles_2.StyledTableBody>
         </material_1.Table>
       </material_1.TableContainer>
       {enabledNavigate && (<material_1.TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={rows.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage}/>)}
