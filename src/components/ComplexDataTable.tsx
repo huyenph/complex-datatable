@@ -1,12 +1,8 @@
 import { useState, useMemo, ReactNode } from "react";
-import { styled, alpha } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 import {
   Box,
   Table,
-  TableBody,
-  TableBodyProps,
-  TableCell,
-  TableCellProps,
   TableContainer,
   TableHead,
   TablePagination,
@@ -18,22 +14,8 @@ import {
   Card,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-
-export const StyledTableCell = styled(TableCell)<TableCellProps>(
-  ({ theme }) => ({
-    textTransform: "initial",
-    color: theme.palette.common.black,
-  })
-);
-
-export const StyledTableBody = styled(TableBody)<TableBodyProps>(
-  ({ theme }) => ({
-    textTransform: "initial",
-    "& .MuiTableCell-body": {
-      color: theme.palette.grey[800],
-    },
-  })
-);
+import { HeadCell } from "../types";
+import { StyledTableBody, StyledTableCell } from "../styles";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -69,14 +51,6 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
     return a[1] - b[1];
   });
   return stabilizedThis.map((el) => el[0]);
-}
-
-export interface HeadCell<T> {
-  id: keyof T;
-  disablePadding: boolean;
-  label: string;
-  align: "left" | "right" | "center";
-  numeric: boolean;
 }
 
 interface ComplexTableHeadProps<T> {

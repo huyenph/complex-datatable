@@ -1,7 +1,7 @@
 {
   "name": "complex-datatable",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.8",
+  "description": "Mui Data table with complex options",
   "main": "lib/index.js",
   "types": "lib/index.d.js",
   "files": [
@@ -25,11 +25,19 @@
     "url": "git@github.com-hp:huyenph/complex-datatable.git"
   },
   "devDependencies": {
-    "typescript": "^5.1.3"
+    "@babel/cli": "^7.22.5",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "@types/react": "18.2.6",
+    "babel-loader": "^9.1.2",
+    "typescript": "^5.1.3",
+    "webpack": "^5.88.0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.13.6"
+    "@mui/material": "^5.13.6",
+    "babel-preset-es2015": "^6.24.1",
+    "react": "^18.2.0"
   }
 }
