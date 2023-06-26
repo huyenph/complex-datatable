@@ -218,7 +218,7 @@ interface ComplexTableProps<T> {
   enabledNavigate?: boolean;
 }
 
-export default function ComplexTable<T>(props: ComplexTableProps<T>) {
+export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   const {
     defaultKey,
     dense = false,

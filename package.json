@@ -14,9 +14,9 @@
     "complex datatable"
   ],
   "author": "Huyen Pham",
-  "license": "ISC",
-  "prepare": "npm run build",
+  "license": "MIT",
   "scripts": {
+    "prepare": "npm run build",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
