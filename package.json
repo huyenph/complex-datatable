@@ -1,11 +1,11 @@
 {
   "name": "complex-datatable",
-  "version": "0.0.19",
+  "version": "0.0.34",
   "description": "Mui Data table with complex options",
-  "main": "lib/index.js",
-  "types": "lib/index.d.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "keywords": [
     "enhanced table",
@@ -16,6 +16,7 @@
   "author": "Huyen Pham",
   "license": "MIT",
   "scripts": {
+    "prepare": "npm run build",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,10 +28,13 @@
     "url": "https://github.com/huyenph/complex-datatable/issues"
   },
   "homepage": "https://github.com/huyenph/complex-datatable",
-  "devDependencies": {},
-  "dependencies": {
-    "@babel/cli": "^7.22.5",
+  "devDependencies": {
+    "@babel/core": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
+    "@babel/preset-react": "^7.22.5",
+    "babel-loader": "^9.1.2"
+  },
+  "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.6",
