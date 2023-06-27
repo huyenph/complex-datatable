@@ -1,6 +1,6 @@
 {
   "name": "complex-datatable",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Mui Data table with complex options",
   "main": "lib/index.js",
   "types": "lib/index.d.js",
@@ -24,6 +24,10 @@
     "type": "git",
     "url": "git@github.com-hp:huyenph/complex-datatable.git"
   },
+  "bugs": {
+    "url": "git@github.com-hp:huyenph/complex-datatable.git"
+  },
+  "homepage": "git@github.com-hp:huyenph/complex-datatable.git",
   "devDependencies": {
     "@babel/cli": "^7.22.5",
     "@babel/core": "^7.22.5",
