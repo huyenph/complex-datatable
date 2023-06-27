@@ -16,6 +16,7 @@ import {
 import { visuallyHidden } from "@mui/utils";
 import { HeadCell } from "./types";
 import { StyledTableBody, StyledTableCell } from "./styles";
+import React from "react";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
