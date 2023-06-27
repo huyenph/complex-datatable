@@ -1,7 +1,9 @@
-export interface HeadCell<T> {
+interface HeadCell<T> {
   id: keyof T;
   disablePadding: boolean;
   label: string;
   align: "left" | "right" | "center";
   numeric: boolean;
 }
+
+export { HeadCell };
