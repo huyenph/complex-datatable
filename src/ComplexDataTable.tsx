@@ -1,4 +1,4 @@
-import { useState, useMemo, ReactNode } from "react";
+import React, { useState, useMemo, ReactNode } from "react";
 import { alpha } from "@mui/material/styles";
 import {
   Box,
@@ -16,7 +16,6 @@ import {
 import { visuallyHidden } from "@mui/utils";
 import { HeadCell } from "./types";
 import { StyledTableBody, StyledTableCell } from "./styles";
-import React from "react";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
