@@ -1,19 +1,14 @@
-import {
-  TableBody,
-  TableBodyProps,
-  TableCell,
-  TableCellProps,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { TableBody, TableBodyProps, TableCell, TableCellProps } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const StyledTableCell = styled(TableCell)<TableCellProps>(({ theme }) => ({
-  textTransform: "initial",
+  textTransform: 'initial',
   color: theme.palette.common.black,
 }));
 
 const StyledTableBody = styled(TableBody)<TableBodyProps>(({ theme }) => ({
-  textTransform: "initial",
-  "& .MuiTableCell-body": {
+  textTransform: 'initial',
+  '& .MuiTableCell-body': {
     color: theme.palette.grey[800],
   },
 }));

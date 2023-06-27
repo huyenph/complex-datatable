@@ -3,7 +3,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts|\.tsx$/,
-        use: "awesome-typescript-loader",
+        use: 'awesome-typescript-loader',
         include: __dirname,
       },
     ],

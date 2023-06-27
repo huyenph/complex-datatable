@@ -1,5 +1,5 @@
-import React, { useState, useMemo, ReactNode } from "react";
-import { alpha } from "@mui/material/styles";
+import React, { useState, useMemo, ReactNode } from 'react';
+import { alpha } from '@mui/material/styles';
 import {
   Box,
   Table,
@@ -12,10 +12,10 @@ import {
   Typography,
   Checkbox,
   Card,
-} from "@mui/material";
-import { visuallyHidden } from "@mui/utils";
-import { HeadCell } from "./types";
-import { StyledTableBody, StyledTableCell } from "./styles";
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
+import { HeadCell } from './types';
+import { StyledTableBody, StyledTableCell } from './styles';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -27,16 +27,20 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = "asc" | "desc";
+type Order = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
+  a: {
+    [key in Key]: number | string;
+  },
+  b: {
+    [key in Key]: number | string;
+  }
 ) => number {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -57,28 +61,18 @@ interface ComplexTableHeadProps<T> {
   headCells: HeadCell<T>[];
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
-  onSelectAllClick?: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void | undefined;
+  onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined;
   order: Order;
   orderBy: string;
   rowCount: number;
 }
 
 function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
-  const {
-    headCells,
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler =
-    (property: keyof T) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
+  const { headCells, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+    props;
+  const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort(event, property);
+  };
 
   return (
     <TableHead>
@@ -91,7 +85,7 @@ function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={onSelectAllClick}
               inputProps={{
-                "aria-label": "select all desserts",
+                'aria-label': 'select all desserts',
               }}
             />
           </StyledTableCell>
@@ -101,18 +95,18 @@ function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
           <StyledTableCell
             key={headCell.id as string}
             align={headCell.align}
-            padding={headCell.disablePadding ? "none" : "normal"}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -135,20 +129,24 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
   return (
     <Toolbar
       sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
+        pl: {
+          sm: 2,
+        },
+        pr: {
+          xs: 1,
+          sm: 1,
+        },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
+            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
         }),
       }}
     >
       {numSelected > 0 ? (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{
+            flex: '1 1 100%',
+          }}
           color="inherit"
           variant="subtitle1"
           component="div"
@@ -157,7 +155,9 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{
+            flex: '1 1 100%',
+          }}
           variant="h6"
           id="tableTitle"
           component="div"
@@ -180,13 +180,8 @@ interface ComplexTableProps<T> {
   setSelected?: (value: string[]) => void;
   renderRowCells: (row: T) => ReactNode;
   renderCollapseRow?: (row: T) => ReactNode;
-  handleSelectAllClick?: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void | undefined;
-  handleClick?: (
-    event: React.MouseEvent<unknown>,
-    name: string
-  ) => void | undefined;
+  handleSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined;
+  handleClick?: (event: React.MouseEvent<unknown>, name: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
   enabledNavigate?: boolean;
@@ -208,17 +203,14 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     toolbarAction,
     enabledNavigate = true,
   } = props;
-  const [order, setOrder] = useState<Order>("asc");
+  const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof T>(defaultKey as keyof T);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof T
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof T) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -249,19 +241,15 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const isSelected = (name: string) =>
-    selected ? selected.indexOf(name) !== -1 : false;
+  const isSelected = (name: string) => (selected ? selected.indexOf(name) !== -1 : false);
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const visibleRows = useMemo(
     () =>
@@ -275,7 +263,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   return (
     <Card
       sx={{
-        width: "100%",
+        width: '100%',
         mb: renderCollapseRow === undefined ? 0 : 2,
         boxShadow: renderCollapseRow === undefined ? 0 : undefined,
       }}
@@ -289,9 +277,11 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
       )}
       <TableContainer>
         <Table
-          sx={{ minWidth: 750 }}
+          sx={{
+            minWidth: 750,
+          }}
           aria-labelledby="tableTitle"
-          size={dense ? "small" : "medium"}
+          size={dense ? 'small' : 'medium'}
         >
           <ComplexTableHead
             headCells={headCells}
@@ -312,14 +302,14 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                   <TableRow
                     hover
                     onClick={(event) => onHandleClick(event, (row as any).name)}
-                    role={
-                      handleSelectAllClick !== undefined ? "checkbox" : "list"
-                    }
+                    role={handleSelectAllClick !== undefined ? 'checkbox' : 'list'}
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={(row as any).name}
                     selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
+                    sx={{
+                      cursor: 'pointer',
+                    }}
                   >
                     {handleSelectAllClick !== undefined && (
                       <StyledTableCell padding="checkbox">
@@ -327,7 +317,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
-                            "aria-labelledby": labelId,
+                            'aria-labelledby': labelId,
                           }}
                         />
                       </StyledTableCell>
