@@ -3,7 +3,7 @@
     "module": "CommonJS",
     "target": "ES2015",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "./lib",
     "noImplicitAny": true,
     "declaration": true,
     "jsx": "preserve",

@@ -2,10 +2,10 @@
   "name": "complex-datatable",
   "version": "0.0.19",
   "description": "Mui Data table with complex options",
-  "main": "dist/index.js",
-  "types": "dist/index.d.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.js",
   "files": [
-    "dist"
+    "lib"
   ],
   "keywords": [
     "enhanced table",
