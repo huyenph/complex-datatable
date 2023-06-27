@@ -1,6 +1,6 @@
 {
   "name": "complex-datatable",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "Mui Data table with complex options",
   "main": "lib/index.js",
   "types": "lib/index.d.js",
@@ -16,7 +16,7 @@
   "author": "Huyen Pham",
   "license": "MIT",
   "scripts": {
-    "prepare": "npm run build",
+    "prepare": "yarn build",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,7 +32,9 @@
     "@babel/core": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
     "@babel/preset-react": "^7.22.5",
-    "babel-loader": "^9.1.2"
+    "babel-loader": "^9.1.2",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
