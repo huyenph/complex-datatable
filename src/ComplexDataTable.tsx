@@ -14,8 +14,8 @@ import {
   Card,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { HeadCell } from "../types";
-import { StyledTableBody, StyledTableCell } from "../styles";
+import { HeadCell } from "./types";
+import { StyledTableBody, StyledTableCell } from "./styles";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

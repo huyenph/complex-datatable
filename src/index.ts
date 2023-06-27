@@ -1,3 +1,3 @@
-import ComplexDataTable from "./components/ComplexDataTable";
+import ComplexDataTable from "./ComplexDataTable";
 
 export default ComplexDataTable;
