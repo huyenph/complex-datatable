@@ -27,7 +27,7 @@ import {
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { CourseName, Instructor, OfflineClass, OfflineClassChild } from '../types';
-import ComplexDataTable, { HeadCell, StyledTableBody, StyledTableCell } from '../../../../src';
+import ComplexDataTable, { HeadCell, StyledTableBody, StyledTableCell } from 'complex-datatable';
 
 const inter = Inter({ subsets: ['latin'] });
 
