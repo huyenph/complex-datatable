@@ -180,8 +180,8 @@ interface ComplexTableProps<T> {
   setSelected?: (value: string[]) => void;
   renderRowCells: (row: T) => ReactNode;
   renderCollapseRow?: (row: T) => ReactNode;
-  handleSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined;
-  handleClick?: (event: React.MouseEvent<unknown>, name: string) => void | undefined;
+  // handleSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined;
+  handleRowClick?: (event: React.MouseEvent<unknown>, name: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
   enabledNavigate?: boolean;
@@ -197,8 +197,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     setSelected,
     renderRowCells,
     renderCollapseRow,
-    handleSelectAllClick,
-    handleClick,
+    // handleSelectAllClick,
+    handleRowClick,
     toolbarLabel,
     toolbarAction,
     enabledNavigate = true,
@@ -214,7 +214,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     setOrderBy(property);
   };
 
-  const onHandleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const onHandleRowClick = (event: React.MouseEvent<unknown>, name: string) => {
     if (selected && setSelected) {
       const selectedIndex = selected.indexOf(name);
       let newSelected: string[] = [];
@@ -232,8 +232,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
       }
       setSelected(newSelected);
     }
-    if (handleClick) {
-      handleClick(event, name);
+    if (handleRowClick) {
+      handleRowClick(event, name);
     }
   };
 
@@ -244,6 +244,18 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const onHandleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (selected && setSelected) {
+      if (event.target.checked) {
+        const newSelected = rows.map((n) => `${n.id}`);
+        setSelected(newSelected);
+
+        return;
+      }
+      setSelected([]);
+    }
   };
 
   const isSelected = (name: string) => (selected ? selected.indexOf(name) !== -1 : false);
@@ -257,7 +269,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rows, rowsPerPage]
   );
 
   return (
@@ -288,30 +300,30 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
             numSelected={selected ? selected.length : 0}
             order={order}
             orderBy={orderBy as string}
-            onSelectAllClick={handleSelectAllClick}
+            onSelectAllClick={selected && setSelected && onHandleSelectAllClick}
             onRequestSort={handleRequestSort}
             rowCount={rows.length}
           />
           <StyledTableBody>
             {visibleRows.map((row, index) => {
-              const isItemSelected = isSelected((row as any).name);
+              const isItemSelected = isSelected(`${(row as any).id}`);
               const labelId = `Complex-table-checkbox-${index}`;
 
               return (
                 <>
                   <TableRow
                     hover
-                    onClick={(event) => onHandleClick(event, (row as any).name)}
-                    role={handleSelectAllClick !== undefined ? 'checkbox' : 'list'}
+                    onClick={(event) => onHandleRowClick(event, `${(row as any).id}`)}
+                    role={selected !== undefined && setSelected !== undefined ? 'checkbox' : 'list'}
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={(row as any).name}
+                    key={`${(row as any).id}`}
                     selected={isItemSelected}
                     sx={{
                       cursor: 'pointer',
                     }}
                   >
-                    {handleSelectAllClick !== undefined && (
+                    {selected && setSelected && (
                       <StyledTableCell padding="checkbox">
                         <Checkbox
                           color="primary"

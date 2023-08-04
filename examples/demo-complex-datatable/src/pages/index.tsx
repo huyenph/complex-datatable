@@ -150,6 +150,7 @@ const StyledAttendanceTableCell = styled(TableCell)<TableCellProps>(({ theme }) 
 
 export default function Home() {
   const [isOpenAttendances, setOpenAttendances] = useState<any>({});
+  const [selected, setSelected] = useState<string[]>([]);
 
   const createData = (
     childs: OfflineClassChild[],
@@ -428,6 +429,17 @@ export default function Home() {
               rows={rows}
               renderRowCells={renderRowCells}
               renderCollapseRow={renderCollapseRow}
+              // handleSelectAllClick={(event: React.ChangeEvent<HTMLInputElement>) => {
+              //   if (event.target.checked) {
+              //     const newSelected = rows.map((n) => `${n.id}`);
+              //     setSelected(newSelected);
+              //     return;
+              //   }
+              //   setSelected([]);
+              // }}
+              selected={selected}
+              setSelected={setSelected}
+              toolbarLabel="Complex Table Toolbat"
             />
           </Grid>
         </Grid>
