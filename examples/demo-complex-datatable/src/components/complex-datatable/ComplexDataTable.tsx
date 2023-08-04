@@ -181,7 +181,7 @@ interface ComplexTableProps<T> {
   renderRowCells: (row: T) => ReactNode;
   renderCollapseRow?: (row: T) => ReactNode;
   // handleSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined;
-  handleRowClick?: (event: React.MouseEvent<unknown>, name: string) => void | undefined;
+  handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
   enabledNavigate?: boolean;
@@ -208,18 +208,20 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const enableSelected = selected !== undefined && setSelected !== undefined;
+
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof T) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const onHandleRowClick = (event: React.MouseEvent<unknown>, name: string) => {
-    if (selected && setSelected) {
-      const selectedIndex = selected.indexOf(name);
+  const onHandleRowClick = (event: React.MouseEvent<unknown>, id: string) => {
+    if (enableSelected) {
+      const selectedIndex = selected.indexOf(id);
       let newSelected: string[] = [];
       if (selectedIndex === -1) {
-        newSelected = newSelected.concat(selected, name);
+        newSelected = newSelected.concat(selected, id);
       } else if (selectedIndex === 0) {
         newSelected = newSelected.concat(selected.slice(1));
       } else if (selectedIndex === selected.length - 1) {
@@ -233,7 +235,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
       setSelected(newSelected);
     }
     if (handleRowClick) {
-      handleRowClick(event, name);
+      handleRowClick(event, id);
     }
   };
 
@@ -247,11 +249,10 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   };
 
   const onHandleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (selected && setSelected) {
+    if (enableSelected) {
       if (event.target.checked) {
         const newSelected = rows.map((n) => `${n.id}`);
         setSelected(newSelected);
-
         return;
       }
       setSelected([]);
@@ -300,7 +301,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
             numSelected={selected ? selected.length : 0}
             order={order}
             orderBy={orderBy as string}
-            onSelectAllClick={selected && setSelected && onHandleSelectAllClick}
+            onSelectAllClick={enableSelected ? onHandleSelectAllClick : undefined}
             onRequestSort={handleRequestSort}
             rowCount={rows.length}
           />
@@ -314,7 +315,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                   <TableRow
                     hover
                     onClick={(event) => onHandleRowClick(event, `${(row as any).id}`)}
-                    role={selected !== undefined && setSelected !== undefined ? 'checkbox' : 'list'}
+                    role={enableSelected ? 'checkbox' : 'list'}
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={`${(row as any).id}`}
@@ -323,7 +324,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                       cursor: 'pointer',
                     }}
                   >
-                    {selected && setSelected && (
+                    {enableSelected && (
                       <StyledTableCell padding="checkbox">
                         <Checkbox
                           color="primary"

@@ -439,7 +439,7 @@ export default function Home() {
               // }}
               selected={selected}
               setSelected={setSelected}
-              toolbarLabel="Complex Table Toolbat"
+              toolbarLabel="Complex Table Toolbar"
             />
           </Grid>
         </Grid>
