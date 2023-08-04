@@ -1,0 +1,21 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "next/babel",
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "styled-components",
+      {
+        "ssr": true,
+        "displayName": true
+      }
+    ]
+  ]
+}
