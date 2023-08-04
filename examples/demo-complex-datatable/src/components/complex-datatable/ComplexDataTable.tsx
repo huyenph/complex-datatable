@@ -180,7 +180,6 @@ interface ComplexTableProps<T> {
   setSelected?: (value: string[]) => void;
   renderRowCells: (row: T) => ReactNode;
   renderCollapseRow?: (row: T) => ReactNode;
-  // handleSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined;
   handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
@@ -197,7 +196,6 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     setSelected,
     renderRowCells,
     renderCollapseRow,
-    // handleSelectAllClick,
     handleRowClick,
     toolbarLabel,
     toolbarAction,
