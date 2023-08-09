@@ -342,7 +342,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                     {collapseTable && (
                       <StyledTableCell key={`collapse-${(row as any).id}`}>
                         <IconButton
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setOpenCollapse((prev: any[]) => ({
                               ...prev,
                               [(row as any).id]: !prev[(row as any).id],
