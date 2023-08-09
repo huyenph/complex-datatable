@@ -9,13 +9,6 @@ import Head from 'next/head';
 
 const headCells: HeadCell<OfflineClass>[] = [
   {
-    id: 'childs',
-    numeric: false,
-    disablePadding: false,
-    label: '',
-    align: 'left',
-  },
-  {
     id: 'id',
     numeric: true,
     disablePadding: false,
@@ -397,8 +390,8 @@ export default function Home() {
           //   }
           //   setSelected([]);
           // }}
-          selected={selected}
-          setSelected={setSelected}
+          // selected={selected}
+          // setSelected={setSelected}
           toolbarLabel="Complex Table Toolbar"
         />
       </main>
