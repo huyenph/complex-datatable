@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { SxProps } from '@mui/material';
 import { HeadCell } from './types';
 interface ComplexTableProps<T> {
     defaultKey: string;
@@ -8,10 +9,10 @@ interface ComplexTableProps<T> {
     isSelecting?: boolean;
     selected?: string[];
     setSelected?: (value: string[]) => void;
-    renderRowCells: (row: T) => ReactNode;
-    renderCollapseRow?: (row: T) => ReactNode;
-    handleSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void | undefined;
-    handleClick?: (event: React.MouseEvent<unknown>, name: string) => void | undefined;
+    sx?: SxProps;
+    rowCells: (row: T) => ReactNode;
+    collapseTable?: (row: T) => ReactNode;
+    handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
     toolbarLabel?: string;
     toolbarAction?: ReactNode;
     enabledNavigate?: boolean;

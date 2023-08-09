@@ -21,17 +21,17 @@ import { visuallyHidden } from '@mui/utils';
 import { HeadCell } from './types';
 import { StyledTableBody, StyledTableCell, StyledCollapseTableCell } from './styles';
 
+type Order = 'asc' | 'desc';
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
+  if (JSON.stringify(b[orderBy]) < JSON.stringify(a[orderBy])) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (JSON.stringify(b[orderBy]) > JSON.stringify(a[orderBy])) {
     return 1;
   }
   return 0;
 }
-
-type Order = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
   order: Order,

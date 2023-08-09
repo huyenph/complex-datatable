@@ -161,7 +161,7 @@ export default function Home() {
           name: 'Travis Howard',
           age: 19,
           dateOfBirth: '20/05/2003',
-          attendance: 'Present',
+          attendance: 'Resent',
           actions: '',
         } as OfflineClassChild,
       ],
@@ -173,12 +173,8 @@ export default function Home() {
       'Monday',
       [
         {
-          name: 'Remy Sharp',
+          name: 'Sharp',
           avatarUrl: '/images/avatars/1.png',
-        } as Instructor,
-        {
-          name: 'Travis Howard',
-          avatarUrl: '/images/avatars/2.png',
         } as Instructor,
         {
           name: 'Cindy Baker',
@@ -358,7 +354,7 @@ export default function Home() {
     );
   };
 
-  const renderCollapseRow = (row: OfflineClass) => {
+  const renderCollapseTable = (row: OfflineClass) => {
     return (
       <ComplexDataTable
         dense
@@ -392,7 +388,7 @@ export default function Home() {
           headCells={headCells}
           rows={rows}
           rowCells={renderRowCells}
-          collapseTable={renderCollapseRow}
+          collapseTable={renderCollapseTable}
           // handleSelectAllClick={(event: React.ChangeEvent<HTMLInputElement>) => {
           //   if (event.target.checked) {
           //     const newSelected = rows.map((n) => `${n.id}`);

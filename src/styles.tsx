@@ -12,3 +12,11 @@ export const StyledTableBody = styled(TableBody)<TableBodyProps>(({ theme }) => 
     color: theme.palette.grey[800],
   },
 }));
+
+export const StyledCollapseTableCell = styled(TableCell)<TableCellProps>(({ theme }) => ({
+  textTransform: 'initial',
+  color: theme.palette.common.black,
+  '&.MuiTableCell-root:last-child': {
+    padding: 0,
+  },
+}));
