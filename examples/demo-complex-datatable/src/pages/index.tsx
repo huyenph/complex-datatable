@@ -3,30 +3,18 @@ import {
   Avatar,
   AvatarGroup,
   Chip,
-  Collapse,
   Grid,
   IconButton,
   TableCell,
   TableCellProps,
-  TableRow,
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  AssignmentLateOutlined,
-  AssignmentTurnedInOutlined,
-  Done,
-  KeyboardArrowDown,
-  KeyboardArrowUp,
-} from '@mui/icons-material';
+import { AssignmentLateOutlined, AssignmentTurnedInOutlined, Done } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import styles from '@/styles/Home.module.css';
 import { CourseName, Instructor, OfflineClass, OfflineClassChild } from '../types';
-import ComplexDataTable, {
-  HeadCell,
-  StyledTableBody,
-  StyledTableCell,
-} from '../components/complex-datatable';
+import ComplexDataTable, { HeadCell, StyledTableCell } from '../components/complex-datatable';
 import Head from 'next/head';
 
 const headCells: HeadCell<OfflineClass>[] = [
@@ -140,16 +128,7 @@ const StyledImage = styled('img')(({ theme }) => ({
   borderRadius: 5,
 }));
 
-const StyledAttendanceTableCell = styled(TableCell)<TableCellProps>(({ theme }) => ({
-  textTransform: 'initial',
-  color: theme.palette.common.black,
-  '&.MuiTableCell-root:last-child': {
-    padding: 0,
-  },
-}));
-
 export default function Home() {
-  const [isOpenAttendances, setOpenAttendances] = useState<any>({});
   const [selected, setSelected] = useState<string[]>([]);
 
   const createData = (
@@ -288,7 +267,7 @@ export default function Home() {
   const renderRowCells = (row: OfflineClass) => {
     return (
       <>
-        <StyledTableCell key={`childs-${row.id}`}>
+        {/* <StyledTableCell key={`childs-${row.id}`}>
           <IconButton
             onClick={() => {
               setOpenAttendances((prev: any[]) => ({
@@ -299,7 +278,7 @@ export default function Home() {
           >
             {isOpenAttendances[row.id] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
-        </StyledTableCell>
+        </StyledTableCell> */}
         <StyledTableCell key={row.id} align="left">
           {row.id}
         </StyledTableCell>
@@ -391,20 +370,14 @@ export default function Home() {
 
   const renderCollapseRow = (row: OfflineClass) => {
     return (
-      <TableRow>
-        <StyledAttendanceTableCell colSpan={9}>
-          <Collapse in={isOpenAttendances[row.id]} timeout="auto">
-            <ComplexDataTable
-              dense
-              defaultKey="name"
-              enabledNavigate={false}
-              headCells={collapseHeadCells}
-              rows={row.childs}
-              renderRowCells={(child: OfflineClassChild) => renderCollapseRowCells(row.id, child)}
-            />
-          </Collapse>
-        </StyledAttendanceTableCell>
-      </TableRow>
+      <ComplexDataTable
+        dense
+        defaultKey="name"
+        enabledNavigate={false}
+        headCells={collapseHeadCells}
+        rows={row.childs}
+        renderRowCells={(child: OfflineClassChild) => renderCollapseRowCells(row.id, child)}
+      />
     );
   };
 
@@ -428,7 +401,7 @@ export default function Home() {
               headCells={headCells}
               rows={rows}
               renderRowCells={renderRowCells}
-              renderCollapseRow={renderCollapseRow}
+              renderCollapseTable={renderCollapseRow}
               // handleSelectAllClick={(event: React.ChangeEvent<HTMLInputElement>) => {
               //   if (event.target.checked) {
               //     const newSelected = rows.map((n) => `${n.id}`);

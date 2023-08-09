@@ -12,10 +12,13 @@ import {
   Typography,
   Checkbox,
   Card,
+  IconButton,
+  Collapse,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { HeadCell } from './types';
-import { StyledTableBody, StyledTableCell } from './styles';
+import { StyledTableBody, StyledTableCell, StyledCollapseTableCell } from './styles';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -179,7 +182,7 @@ interface ComplexTableProps<T> {
   selected?: string[];
   setSelected?: (value: string[]) => void;
   renderRowCells: (row: T) => ReactNode;
-  renderCollapseRow?: (row: T) => ReactNode;
+  renderCollapseTable?: (row: T) => ReactNode;
   handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
@@ -195,12 +198,15 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     selected,
     setSelected,
     renderRowCells,
-    renderCollapseRow,
+    renderCollapseTable,
     handleRowClick,
     toolbarLabel,
     toolbarAction,
     enabledNavigate = true,
   } = props;
+
+  const [isOpenCollapse, setOpenCollapse] = useState<any>({});
+
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof T>(defaultKey as keyof T);
   const [page, setPage] = useState(0);
@@ -275,8 +281,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     <Card
       sx={{
         width: '100%',
-        mb: renderCollapseRow === undefined ? 0 : 2,
-        boxShadow: renderCollapseRow === undefined ? 0 : undefined,
+        mb: renderCollapseTable === undefined ? 0 : 2,
+        boxShadow: renderCollapseTable === undefined ? 0 : undefined,
       }}
     >
       {toolbarLabel && (
@@ -333,9 +339,37 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                         />
                       </StyledTableCell>
                     )}
+                    {renderCollapseTable && (
+                      <StyledTableCell key={`collapse-${(row as any).id}`}>
+                        <IconButton
+                          onClick={() => {
+                            setOpenCollapse((prev: any[]) => ({
+                              ...prev,
+                              [(row as any).id]: !prev[(row as any).id],
+                            }));
+                          }}
+                        >
+                          {isOpenCollapse[(row as any).id] ? (
+                            <KeyboardArrowUp />
+                          ) : (
+                            <KeyboardArrowDown />
+                          )}
+                        </IconButton>
+                      </StyledTableCell>
+                    )}
+
                     {renderRowCells(row as T)}
                   </TableRow>
-                  {renderCollapseRow && renderCollapseRow(row as T)}
+                  {renderCollapseTable && (
+                    <TableRow>
+                      <StyledCollapseTableCell colSpan={9}>
+                        <Collapse in={isOpenCollapse[(row as any).id]} timeout="auto">
+                          {renderCollapseTable(row as T)}
+                        </Collapse>
+                      </StyledCollapseTableCell>
+                    </TableRow>
+                  )}
+                  {/* {renderCollapseRow && renderCollapseRow(row as T)} */}
                 </>
               );
             })}
