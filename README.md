@@ -2,7 +2,7 @@
 
 ### Complex Data Table
 
-Complex Data Table is a package based on Material UI to combine into 1 table full of advanced functions such as filter, sort, collapse and more functions will develop in the future.
+Complex Data Table is a package based on Material UI to combine into 1 table full of advanced functions such as filter, sort, collapse and more functions will be developed in the future.
 
 Complex Data Table is available as an [npm package](https://www.npmjs.com/package/complex-datatable).
 
