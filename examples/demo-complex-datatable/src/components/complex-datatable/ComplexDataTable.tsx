@@ -14,11 +14,12 @@ import {
   Card,
   IconButton,
   Collapse,
+  SxProps,
 } from '@mui/material';
+import { KeyboardArrowDown } from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
 import { HeadCell } from './types';
 import { StyledTableBody, StyledTableCell, StyledCollapseTableCell } from './styles';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -181,6 +182,7 @@ interface ComplexTableProps<T> {
   isSelecting?: boolean;
   selected?: string[];
   setSelected?: (value: string[]) => void;
+  sx?: SxProps;
   rowCells: (row: T) => ReactNode;
   collapseTable?: (row: T) => ReactNode;
   handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
@@ -197,6 +199,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     rows,
     selected,
     setSelected,
+    sx,
     rowCells,
     collapseTable,
     handleRowClick,
@@ -283,6 +286,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         width: '100%',
         mb: collapseTable === undefined ? 0 : 2,
         boxShadow: collapseTable === undefined ? 0 : undefined,
+        ...sx,
       }}
     >
       {toolbarLabel && (
@@ -350,11 +354,17 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                             }));
                           }}
                         >
-                          {isOpenCollapse[(row as any).id] ? (
-                            <KeyboardArrowUp />
-                          ) : (
-                            <KeyboardArrowDown />
-                          )}
+                          <KeyboardArrowDown
+                            sx={{
+                              transform: isOpenCollapse[(row as any).id]
+                                ? 'rotate(180deg)'
+                                : 'rotate(0deg)',
+                              transitionDuration: '300ms',
+                              transitionTimingFunction: 'ease-in-out',
+                              transitionProperty: 'transform',
+                              pointerEvents: 'none',
+                            }}
+                          />
                         </IconButton>
                       </StyledTableCell>
                     )}

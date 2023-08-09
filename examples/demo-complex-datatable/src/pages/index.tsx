@@ -383,29 +383,28 @@ export default function Home() {
         <div className={styles.description}>
           <p>Get started with Complex Data Table</p>
         </div>
-        <Grid container mt={10}>
-          <Grid item xs={12}>
-            <ComplexDataTable
-              dense
-              defaultKey="id"
-              headCells={headCells}
-              rows={rows}
-              rowCells={renderRowCells}
-              collapseTable={renderCollapseRow}
-              // handleSelectAllClick={(event: React.ChangeEvent<HTMLInputElement>) => {
-              //   if (event.target.checked) {
-              //     const newSelected = rows.map((n) => `${n.id}`);
-              //     setSelected(newSelected);
-              //     return;
-              //   }
-              //   setSelected([]);
-              // }}
-              selected={selected}
-              setSelected={setSelected}
-              toolbarLabel="Complex Table Toolbar"
-            />
-          </Grid>
-        </Grid>
+        <ComplexDataTable
+          sx={{
+            mt: 2,
+          }}
+          dense
+          defaultKey="id"
+          headCells={headCells}
+          rows={rows}
+          rowCells={renderRowCells}
+          collapseTable={renderCollapseRow}
+          // handleSelectAllClick={(event: React.ChangeEvent<HTMLInputElement>) => {
+          //   if (event.target.checked) {
+          //     const newSelected = rows.map((n) => `${n.id}`);
+          //     setSelected(newSelected);
+          //     return;
+          //   }
+          //   setSelected([]);
+          // }}
+          selected={selected}
+          setSelected={setSelected}
+          toolbarLabel="Complex Table Toolbar"
+        />
       </main>
     </>
   );
