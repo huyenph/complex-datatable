@@ -181,8 +181,8 @@ interface ComplexTableProps<T> {
   isSelecting?: boolean;
   selected?: string[];
   setSelected?: (value: string[]) => void;
-  renderRowCells: (row: T) => ReactNode;
-  renderCollapseTable?: (row: T) => ReactNode;
+  rowCells: (row: T) => ReactNode;
+  collapseTable?: (row: T) => ReactNode;
   handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
@@ -197,8 +197,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     rows,
     selected,
     setSelected,
-    renderRowCells,
-    renderCollapseTable,
+    rowCells,
+    collapseTable,
     handleRowClick,
     toolbarLabel,
     toolbarAction,
@@ -281,8 +281,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     <Card
       sx={{
         width: '100%',
-        mb: renderCollapseTable === undefined ? 0 : 2,
-        boxShadow: renderCollapseTable === undefined ? 0 : undefined,
+        mb: collapseTable === undefined ? 0 : 2,
+        boxShadow: collapseTable === undefined ? 0 : undefined,
       }}
     >
       {toolbarLabel && (
@@ -339,7 +339,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                         />
                       </StyledTableCell>
                     )}
-                    {renderCollapseTable && (
+                    {collapseTable && (
                       <StyledTableCell key={`collapse-${(row as any).id}`}>
                         <IconButton
                           onClick={() => {
@@ -358,18 +358,17 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                       </StyledTableCell>
                     )}
 
-                    {renderRowCells(row as T)}
+                    {rowCells(row as T)}
                   </TableRow>
-                  {renderCollapseTable && (
+                  {collapseTable && (
                     <TableRow>
                       <StyledCollapseTableCell colSpan={9}>
                         <Collapse in={isOpenCollapse[(row as any).id]} timeout="auto">
-                          {renderCollapseTable(row as T)}
+                          {collapseTable(row as T)}
                         </Collapse>
                       </StyledCollapseTableCell>
                     </TableRow>
                   )}
-                  {/* {renderCollapseRow && renderCollapseRow(row as T)} */}
                 </>
               );
             })}

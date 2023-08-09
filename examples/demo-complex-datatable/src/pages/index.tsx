@@ -1,15 +1,5 @@
 import { useState } from 'react';
-import {
-  Avatar,
-  AvatarGroup,
-  Chip,
-  Grid,
-  IconButton,
-  TableCell,
-  TableCellProps,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Avatar, AvatarGroup, Chip, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { AssignmentLateOutlined, AssignmentTurnedInOutlined, Done } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import styles from '@/styles/Home.module.css';
@@ -376,7 +366,7 @@ export default function Home() {
         enabledNavigate={false}
         headCells={collapseHeadCells}
         rows={row.childs}
-        renderRowCells={(child: OfflineClassChild) => renderCollapseRowCells(row.id, child)}
+        rowCells={(child: OfflineClassChild) => renderCollapseRowCells(row.id, child)}
       />
     );
   };
@@ -400,8 +390,8 @@ export default function Home() {
               defaultKey="id"
               headCells={headCells}
               rows={rows}
-              renderRowCells={renderRowCells}
-              renderCollapseTable={renderCollapseRow}
+              rowCells={renderRowCells}
+              collapseTable={renderCollapseRow}
               // handleSelectAllClick={(event: React.ChangeEvent<HTMLInputElement>) => {
               //   if (event.target.checked) {
               //     const newSelected = rows.map((n) => `${n.id}`);
