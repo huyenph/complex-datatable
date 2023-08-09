@@ -69,11 +69,20 @@ interface ComplexTableHeadProps<T> {
   order: Order;
   orderBy: string;
   rowCount: number;
+  enableCollapse: boolean;
 }
 
 function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
-  const { headCells, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const {
+    headCells,
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+    enableCollapse,
+  } = props;
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
@@ -94,6 +103,8 @@ function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
             />
           </StyledTableCell>
         )}
+
+        {enableCollapse && <StyledTableCell padding="checkbox" />}
 
         {headCells.map((headCell) => (
           <StyledTableCell
@@ -312,6 +323,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
             onSelectAllClick={enableSelected ? onHandleSelectAllClick : undefined}
             onRequestSort={handleRequestSort}
             rowCount={rows.length}
+            enableCollapse={collapseTable !== undefined}
           />
           <StyledTableBody>
             {visibleRows.map((row, index) => {
@@ -368,12 +380,24 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                         </IconButton>
                       </StyledTableCell>
                     )}
-
                     {rowCells(row as T)}
                   </TableRow>
                   {collapseTable && (
                     <TableRow>
-                      <StyledCollapseTableCell colSpan={9}>
+                      {enableSelected && (
+                        <StyledCollapseTableCell
+                          sx={{
+                            padding: 0,
+                          }}
+                        />
+                      )}
+                      <StyledCollapseTableCell
+                        sx={{
+                          padding: 0,
+                        }}
+                      />
+
+                      <StyledCollapseTableCell colSpan={headCells.length}>
                         <Collapse in={isOpenCollapse[(row as any).id]} timeout="auto">
                           {collapseTable(row as T)}
                         </Collapse>
