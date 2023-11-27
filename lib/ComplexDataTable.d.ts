@@ -5,6 +5,7 @@ interface ComplexTableProps<T> {
     defaultKey: string;
     dense?: boolean;
     headCells: HeadCell<T>[];
+    headCellSx?: SxProps;
     rows: any[];
     isSelecting?: boolean;
     selected?: string[];
