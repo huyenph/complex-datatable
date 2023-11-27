@@ -204,6 +204,7 @@ interface ComplexTableProps<T> {
   enabledNavigate?: boolean;
   toolbarSx?: SxProps;
   toolbarLabelSx?: SxProps;
+  rowsPerPageOptions?: number[];
 }
 
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
@@ -224,6 +225,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     enabledNavigate = true,
     toolbarSx,
     toolbarLabelSx,
+    rowsPerPageOptions,
   } = props;
 
   const [isOpenCollapse, setOpenCollapse] = useState<any>({});
@@ -231,7 +233,9 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof T>(defaultKey as keyof T);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    rowsPerPageOptions !== undefined ? rowsPerPageOptions[0] : 5
+  );
 
   const enableSelected = selected !== undefined && setSelected !== undefined;
 
@@ -437,7 +441,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
       </TableContainer>
       {enabledNavigate && (
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={rowsPerPageOptions ?? [5, 10, 25]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
