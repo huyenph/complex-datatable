@@ -205,6 +205,8 @@ interface ComplexTableProps<T> {
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
   enabledNavigate?: boolean;
+  toolbarSx?: SxProps;
+  toolbarLabelSx?: SxProps;
 }
 
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
@@ -222,6 +224,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     toolbarLabel,
     toolbarAction,
     enabledNavigate = true,
+    toolbarSx,
+    toolbarLabelSx,
   } = props;
 
   const [isOpenCollapse, setOpenCollapse] = useState<any>({});
@@ -313,6 +317,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
           numSelected={selected ? selected.length : 0}
           label={toolbarLabel}
           action={toolbarAction}
+          sx={toolbarSx}
+          labelSx={toolbarLabelSx}
         />
       )}
       <TableContainer>
