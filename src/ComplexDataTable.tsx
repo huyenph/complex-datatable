@@ -168,7 +168,7 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         >
           {numSelected} selected
         </Typography>
-      ) : (
+      ) : label !== undefined ? (
         <Typography
           sx={{
             flex: '1 1 100%',
@@ -180,7 +180,7 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         >
           {label}
         </Typography>
-      )}
+      ) : null}
       {action}
     </Toolbar>
   );
@@ -204,6 +204,9 @@ interface ComplexTableProps<T> {
   enabledNavigate?: boolean;
   toolbarSx?: SxProps;
   toolbarLabelSx?: SxProps;
+  rowsPerPageOptions?: number[];
+  stickyHeader?: boolean;
+  tableContainerSx?: SxProps;
 }
 
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
@@ -224,6 +227,9 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     enabledNavigate = true,
     toolbarSx,
     toolbarLabelSx,
+    rowsPerPageOptions,
+    stickyHeader = false,
+    tableContainerSx,
   } = props;
 
   const [isOpenCollapse, setOpenCollapse] = useState<any>({});
@@ -231,7 +237,9 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof T>(defaultKey as keyof T);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    rowsPerPageOptions !== undefined ? rowsPerPageOptions[0] : 5
+  );
 
   const enableSelected = selected !== undefined && setSelected !== undefined;
 
@@ -307,10 +315,11 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         width: '100%',
         mb: collapseTable === undefined ? 0 : 2,
         boxShadow: collapseTable === undefined ? 0 : undefined,
+        overflow: stickyHeader ? 'hidden' : undefined,
         ...sx,
       }}
     >
-      {toolbarLabel && (
+      {(toolbarLabel || (selected ? selected.length : 0) > 0) && (
         <ComplexTableToolbar
           numSelected={selected ? selected.length : 0}
           label={toolbarLabel}
@@ -319,11 +328,13 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
           labelSx={toolbarLabelSx}
         />
       )}
-      <TableContainer>
+      <TableContainer sx={tableContainerSx}>
         <Table
           sx={{
             minWidth: 750,
           }}
+          stickyHeader={stickyHeader}
+          aria-label="sticky table"
           aria-labelledby="tableTitle"
           size={dense ? 'small' : 'medium'}
         >
@@ -437,7 +448,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
       </TableContainer>
       {enabledNavigate && (
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={rowsPerPageOptions ?? [5, 10, 25]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
