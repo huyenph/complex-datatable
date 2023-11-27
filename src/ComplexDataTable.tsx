@@ -205,6 +205,8 @@ interface ComplexTableProps<T> {
   toolbarSx?: SxProps;
   toolbarLabelSx?: SxProps;
   rowsPerPageOptions?: number[];
+  stickyHeader?: boolean;
+  tableContainerSx?: SxProps;
 }
 
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
@@ -226,6 +228,8 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     toolbarSx,
     toolbarLabelSx,
     rowsPerPageOptions,
+    stickyHeader = false,
+    tableContainerSx,
   } = props;
 
   const [isOpenCollapse, setOpenCollapse] = useState<any>({});
@@ -311,6 +315,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         width: '100%',
         mb: collapseTable === undefined ? 0 : 2,
         boxShadow: collapseTable === undefined ? 0 : undefined,
+        overflow: stickyHeader ? 'hidden' : undefined,
         ...sx,
       }}
     >
@@ -323,11 +328,13 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
           labelSx={toolbarLabelSx}
         />
       )}
-      <TableContainer>
+      <TableContainer sx={tableContainerSx}>
         <Table
           sx={{
             minWidth: 750,
           }}
+          stickyHeader={stickyHeader}
+          aria-label="sticky table"
           aria-labelledby="tableTitle"
           size={dense ? 'small' : 'medium'}
         >

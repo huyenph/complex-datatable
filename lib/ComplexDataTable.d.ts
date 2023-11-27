@@ -20,6 +20,8 @@ interface ComplexTableProps<T> {
     toolbarSx?: SxProps;
     toolbarLabelSx?: SxProps;
     rowsPerPageOptions?: number[];
+    stickyHeader?: boolean;
+    tableContainerSx?: SxProps;
 }
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>): React.JSX.Element;
 export {};
