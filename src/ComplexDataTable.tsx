@@ -1,4 +1,4 @@
-import React, { useState, useMemo, ReactNode } from 'react';
+import React, { useState, useMemo, ReactNode, ChangeEvent } from 'react';
 import { alpha } from '@mui/material/styles';
 import {
   Box,
@@ -136,10 +136,12 @@ interface ComplexTableToolbarProps {
   numSelected: number;
   label?: string;
   action?: ReactNode;
+  sx?: SxProps;
+  labelSx?: SxProps;
 }
 
 function ComplexTableToolbar(props: ComplexTableToolbarProps) {
-  const { numSelected, label, action } = props;
+  const { numSelected, label, action, sx, labelSx } = props;
 
   return (
     <Toolbar
@@ -155,12 +157,14 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
           bgcolor: (theme) =>
             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
         }),
+        ...sx,
       }}
     >
       {numSelected > 0 ? (
         <Typography
           sx={{
             flex: '1 1 100%',
+            ...labelSx,
           }}
           color="inherit"
           variant="subtitle1"
@@ -172,6 +176,7 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         <Typography
           sx={{
             flex: '1 1 100%',
+            ...labelSx,
           }}
           variant="h6"
           id="tableTitle"
@@ -235,6 +240,12 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   };
 
   const onHandleRowClick = (event: React.MouseEvent<unknown>, id: string) => {
+    if (handleRowClick) {
+      handleRowClick(event, id);
+    }
+  };
+
+  const onHandleRowCheck = (event: ChangeEvent<HTMLElement>, id: string) => {
     if (enableSelected) {
       const selectedIndex = selected.indexOf(id);
       let newSelected: string[] = [];
@@ -251,9 +262,6 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         );
       }
       setSelected(newSelected);
-    }
-    if (handleRowClick) {
-      handleRowClick(event, id);
     }
   };
 
@@ -349,6 +357,9 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
+                          onChange={(event: ChangeEvent<HTMLElement>, _: boolean) =>
+                            onHandleRowCheck(event, `${(row as any).id}`)
+                          }
                           inputProps={{
                             'aria-labelledby': labelId,
                           }}
