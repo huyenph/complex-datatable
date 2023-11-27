@@ -70,6 +70,7 @@ interface ComplexTableHeadProps<T> {
   orderBy: string;
   rowCount: number;
   enableCollapse: boolean;
+  headCellSx?: SxProps;
 }
 
 function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
@@ -82,6 +83,7 @@ function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
     rowCount,
     onRequestSort,
     enableCollapse,
+    headCellSx,
   } = props;
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
@@ -117,6 +119,7 @@ function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
+              sx={{ ...headCellSx }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -146,13 +149,6 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
   return (
     <Toolbar
       sx={{
-        pl: {
-          sm: 2,
-        },
-        pr: {
-          xs: 1,
-          sm: 1,
-        },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
@@ -194,6 +190,7 @@ interface ComplexTableProps<T> {
   defaultKey: string;
   dense?: boolean;
   headCells: HeadCell<T>[];
+  headCellSx?: SxProps;
   rows: any[];
   isSelecting?: boolean;
   selected?: string[];
@@ -214,6 +211,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     defaultKey,
     dense = false,
     headCells,
+    headCellSx,
     rows,
     selected,
     setSelected,
@@ -331,6 +329,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         >
           <ComplexTableHead
             headCells={headCells}
+            headCellSx={headCellSx}
             numSelected={selected ? selected.length : 0}
             order={order}
             orderBy={orderBy as string}
