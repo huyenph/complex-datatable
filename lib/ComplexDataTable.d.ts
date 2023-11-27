@@ -16,6 +16,8 @@ interface ComplexTableProps<T> {
     toolbarLabel?: string;
     toolbarAction?: ReactNode;
     enabledNavigate?: boolean;
+    toolbarSx?: SxProps;
+    toolbarLabelSx?: SxProps;
 }
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>): React.JSX.Element;
 export {};
