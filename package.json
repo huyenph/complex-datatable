@@ -1,6 +1,6 @@
 {
   "name": "complex-datatable",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "Mui Data table with complex options",
   "main": "lib/index.js",
   "types": "lib/index.d.js",

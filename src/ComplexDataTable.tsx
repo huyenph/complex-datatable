@@ -168,7 +168,7 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         >
           {numSelected} selected
         </Typography>
-      ) : (
+      ) : label !== undefined ? (
         <Typography
           sx={{
             flex: '1 1 100%',
@@ -180,7 +180,7 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         >
           {label}
         </Typography>
-      )}
+      ) : null}
       {action}
     </Toolbar>
   );
@@ -310,7 +310,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         ...sx,
       }}
     >
-      {toolbarLabel && (
+      {(toolbarLabel || (selected ? selected.length : 0) > 0) && (
         <ComplexTableToolbar
           numSelected={selected ? selected.length : 0}
           label={toolbarLabel}
