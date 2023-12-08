@@ -13,6 +13,7 @@ interface ComplexTableProps<T> {
     sx?: SxProps;
     rowCells: (row: T) => ReactNode;
     collapseTable?: (row: T) => ReactNode;
+    collapseTableHeader?: () => ReactNode;
     handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
     toolbarLabel?: string;
     toolbarAction?: ReactNode;

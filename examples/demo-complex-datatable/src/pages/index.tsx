@@ -347,6 +347,18 @@ export default function Home() {
     );
   };
 
+  const renderCollapseTableHeader = () => {
+    return (
+      <Typography
+        sx={{
+          paddingY: 5,
+        }}
+      >
+        Hello
+      </Typography>
+    );
+  };
+
   const renderCollapseTable = (row: OfflineClass) => {
     return (
       <ComplexDataTable
@@ -382,6 +394,7 @@ export default function Home() {
           rows={rows}
           rowCells={renderRowCells}
           collapseTable={renderCollapseTable}
+          collapseTableHeader={renderCollapseTableHeader}
           // handleSelectAllClick={(event: React.ChangeEvent<HTMLInputElement>) => {
           //   if (event.target.checked) {
           //     const newSelected = rows.map((n) => `${n.id}`);
