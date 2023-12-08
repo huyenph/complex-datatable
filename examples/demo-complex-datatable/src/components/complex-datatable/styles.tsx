@@ -19,4 +19,6 @@ export const StyledCollapseTableCell = styled(TableCell)<TableCellProps>(({ them
   '&.MuiTableCell-root:last-child': {
     padding: 0,
   },
+  borderTop: `1px solid ${theme.palette.divider}`,
+  borderBottom: `0px solid transparent`,
 }));

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, ReactNode } from 'react';
+import React, { useState, useMemo, ReactNode, ChangeEvent } from 'react';
 import { alpha } from '@mui/material/styles';
 import {
   Box,
@@ -70,6 +70,7 @@ interface ComplexTableHeadProps<T> {
   orderBy: string;
   rowCount: number;
   enableCollapse: boolean;
+  headCellSx?: SxProps;
 }
 
 function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
@@ -82,6 +83,7 @@ function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
     rowCount,
     onRequestSort,
     enableCollapse,
+    headCellSx,
   } = props;
   const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
@@ -117,6 +119,7 @@ function ComplexTableHead<T>(props: ComplexTableHeadProps<T>) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
+              sx={{ ...headCellSx }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -136,31 +139,28 @@ interface ComplexTableToolbarProps {
   numSelected: number;
   label?: string;
   action?: ReactNode;
+  sx?: SxProps;
+  labelSx?: SxProps;
 }
 
 function ComplexTableToolbar(props: ComplexTableToolbarProps) {
-  const { numSelected, label, action } = props;
+  const { numSelected, label, action, sx, labelSx } = props;
 
   return (
     <Toolbar
       sx={{
-        pl: {
-          sm: 2,
-        },
-        pr: {
-          xs: 1,
-          sm: 1,
-        },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
         }),
+        ...sx,
       }}
     >
       {numSelected > 0 ? (
         <Typography
           sx={{
             flex: '1 1 100%',
+            ...labelSx,
           }}
           color="inherit"
           variant="subtitle1"
@@ -168,10 +168,11 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         >
           {numSelected} selected
         </Typography>
-      ) : (
+      ) : label !== undefined ? (
         <Typography
           sx={{
             flex: '1 1 100%',
+            ...labelSx,
           }}
           variant="h6"
           id="tableTitle"
@@ -179,7 +180,7 @@ function ComplexTableToolbar(props: ComplexTableToolbarProps) {
         >
           {label}
         </Typography>
-      )}
+      ) : null}
       {action}
     </Toolbar>
   );
@@ -189,6 +190,7 @@ interface ComplexTableProps<T> {
   defaultKey: string;
   dense?: boolean;
   headCells: HeadCell<T>[];
+  headCellSx?: SxProps;
   rows: any[];
   isSelecting?: boolean;
   selected?: string[];
@@ -196,10 +198,16 @@ interface ComplexTableProps<T> {
   sx?: SxProps;
   rowCells: (row: T) => ReactNode;
   collapseTable?: (row: T) => ReactNode;
+  collapseTableHeader?: () => ReactNode;
   handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
   enabledNavigate?: boolean;
+  toolbarSx?: SxProps;
+  toolbarLabelSx?: SxProps;
+  rowsPerPageOptions?: number[];
+  stickyHeader?: boolean;
+  tableContainerSx?: SxProps;
 }
 
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
@@ -207,16 +215,23 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     defaultKey,
     dense = false,
     headCells,
+    headCellSx,
     rows,
     selected,
     setSelected,
     sx,
     rowCells,
     collapseTable,
+    collapseTableHeader,
     handleRowClick,
     toolbarLabel,
     toolbarAction,
     enabledNavigate = true,
+    toolbarSx,
+    toolbarLabelSx,
+    rowsPerPageOptions,
+    stickyHeader = false,
+    tableContainerSx,
   } = props;
 
   const [isOpenCollapse, setOpenCollapse] = useState<any>({});
@@ -224,7 +239,9 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof T>(defaultKey as keyof T);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    rowsPerPageOptions !== undefined ? rowsPerPageOptions[0] : 5
+  );
 
   const enableSelected = selected !== undefined && setSelected !== undefined;
 
@@ -235,6 +252,12 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
   };
 
   const onHandleRowClick = (event: React.MouseEvent<unknown>, id: string) => {
+    if (handleRowClick) {
+      handleRowClick(event, id);
+    }
+  };
+
+  const onHandleRowCheck = (event: ChangeEvent<HTMLElement>, id: string) => {
     if (enableSelected) {
       const selectedIndex = selected.indexOf(id);
       let newSelected: string[] = [];
@@ -251,9 +274,6 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         );
       }
       setSelected(newSelected);
-    }
-    if (handleRowClick) {
-      handleRowClick(event, id);
     }
   };
 
@@ -297,26 +317,32 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
         width: '100%',
         mb: collapseTable === undefined ? 0 : 2,
         boxShadow: collapseTable === undefined ? 0 : undefined,
+        overflow: stickyHeader ? 'hidden' : undefined,
         ...sx,
       }}
     >
-      {toolbarLabel && (
+      {(toolbarLabel || (selected ? selected.length : 0) > 0) && (
         <ComplexTableToolbar
           numSelected={selected ? selected.length : 0}
           label={toolbarLabel}
           action={toolbarAction}
+          sx={toolbarSx}
+          labelSx={toolbarLabelSx}
         />
       )}
-      <TableContainer>
+      <TableContainer sx={tableContainerSx}>
         <Table
           sx={{
             minWidth: 750,
           }}
+          stickyHeader={stickyHeader}
+          aria-label="sticky table"
           aria-labelledby="tableTitle"
           size={dense ? 'small' : 'medium'}
         >
           <ComplexTableHead
             headCells={headCells}
+            headCellSx={headCellSx}
             numSelected={selected ? selected.length : 0}
             order={order}
             orderBy={orderBy as string}
@@ -349,6 +375,9 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
+                          onChange={(event: ChangeEvent<HTMLElement>, _: boolean) =>
+                            onHandleRowCheck(event, `${(row as any).id}`)
+                          }
                           inputProps={{
                             'aria-labelledby': labelId,
                           }}
@@ -399,6 +428,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
 
                       <StyledCollapseTableCell colSpan={headCells.length}>
                         <Collapse in={isOpenCollapse[(row as any).id]} timeout="auto">
+                          {collapseTableHeader && collapseTableHeader()}
                           {collapseTable(row as T)}
                         </Collapse>
                       </StyledCollapseTableCell>
@@ -421,7 +451,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
       </TableContainer>
       {enabledNavigate && (
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={rowsPerPageOptions ?? [5, 10, 25]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

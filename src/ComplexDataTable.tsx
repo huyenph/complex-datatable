@@ -198,6 +198,7 @@ interface ComplexTableProps<T> {
   sx?: SxProps;
   rowCells: (row: T) => ReactNode;
   collapseTable?: (row: T) => ReactNode;
+  collapseTableHeader?: () => ReactNode;
   handleRowClick?: (event: React.MouseEvent<unknown>, id: string) => void | undefined;
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
@@ -221,6 +222,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     sx,
     rowCells,
     collapseTable,
+    collapseTableHeader,
     handleRowClick,
     toolbarLabel,
     toolbarAction,
@@ -426,6 +428,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
 
                       <StyledCollapseTableCell colSpan={headCells.length}>
                         <Collapse in={isOpenCollapse[(row as any).id]} timeout="auto">
+                          {collapseTableHeader && collapseTableHeader()}
                           {collapseTable(row as T)}
                         </Collapse>
                       </StyledCollapseTableCell>
