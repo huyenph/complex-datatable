@@ -195,7 +195,6 @@ interface ComplexTableProps<T> {
   isSelecting?: boolean;
   selected?: string[];
   setSelected?: (value: string[]) => void;
-  sx?: SxProps;
   rowCells: (row: T) => ReactNode;
   collapseTable?: (row: T) => ReactNode;
   collapseTableHeader?: () => ReactNode;
@@ -203,11 +202,13 @@ interface ComplexTableProps<T> {
   toolbarLabel?: string;
   toolbarAction?: ReactNode;
   enabledNavigate?: boolean;
-  toolbarSx?: SxProps;
-  toolbarLabelSx?: SxProps;
+  sx?: SxProps;
+  toolbarStyle?: SxProps;
+  toolbarLabelStyle?: SxProps;
+  collapseWrapperStyle?: SxProps;
   rowsPerPageOptions?: number[];
   stickyHeader?: boolean;
-  tableContainerSx?: SxProps;
+  tableContainerStyle?: SxProps;
 }
 
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
@@ -219,7 +220,6 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     rows,
     selected,
     setSelected,
-    sx,
     rowCells,
     collapseTable,
     collapseTableHeader,
@@ -227,11 +227,13 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     toolbarLabel,
     toolbarAction,
     enabledNavigate = true,
-    toolbarSx,
-    toolbarLabelSx,
+    sx,
+    toolbarStyle,
+    toolbarLabelStyle,
+    collapseWrapperStyle,
+    tableContainerStyle,
     rowsPerPageOptions,
     stickyHeader = false,
-    tableContainerSx,
   } = props;
 
   const [isOpenCollapse, setOpenCollapse] = useState<any>({});
@@ -315,7 +317,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
     <Card
       sx={{
         width: '100%',
-        mb: collapseTable === undefined ? 0 : 2,
+        mb: collapseTable === undefined ? 0 : 20,
         boxShadow: collapseTable === undefined ? 0 : undefined,
         overflow: stickyHeader ? 'hidden' : undefined,
         ...sx,
@@ -326,11 +328,11 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
           numSelected={selected ? selected.length : 0}
           label={toolbarLabel}
           action={toolbarAction}
-          sx={toolbarSx}
-          labelSx={toolbarLabelSx}
+          sx={toolbarStyle}
+          labelSx={toolbarLabelStyle}
         />
       )}
-      <TableContainer sx={tableContainerSx}>
+      <TableContainer sx={tableContainerStyle}>
         <Table
           sx={{
             minWidth: 750,
@@ -413,7 +415,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                   </TableRow>
                   {collapseTable && (
                     <TableRow>
-                      {enableSelected && (
+                      {/* {enableSelected && (
                         <StyledCollapseTableCell
                           sx={{
                             padding: 0,
@@ -424,12 +426,20 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                         sx={{
                           padding: 0,
                         }}
-                      />
-
-                      <StyledCollapseTableCell colSpan={headCells.length}>
+                      /> */}
+                      <StyledCollapseTableCell
+                        colSpan={headCells.length + 1 + (enableSelected ? 1 : 0)}
+                      >
                         <Collapse in={isOpenCollapse[(row as any).id]} timeout="auto">
-                          {collapseTableHeader && collapseTableHeader()}
-                          {collapseTable(row as T)}
+                          <Box
+                            sx={{
+                              padding: 4,
+                              ...collapseWrapperStyle,
+                            }}
+                          >
+                            {collapseTableHeader && collapseTableHeader()}
+                            {collapseTable(row as T)}
+                          </Box>
                         </Collapse>
                       </StyledCollapseTableCell>
                     </TableRow>

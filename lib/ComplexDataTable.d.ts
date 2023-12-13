@@ -10,7 +10,6 @@ interface ComplexTableProps<T> {
     isSelecting?: boolean;
     selected?: string[];
     setSelected?: (value: string[]) => void;
-    sx?: SxProps;
     rowCells: (row: T) => ReactNode;
     collapseTable?: (row: T) => ReactNode;
     collapseTableHeader?: () => ReactNode;
@@ -18,11 +17,13 @@ interface ComplexTableProps<T> {
     toolbarLabel?: string;
     toolbarAction?: ReactNode;
     enabledNavigate?: boolean;
-    toolbarSx?: SxProps;
-    toolbarLabelSx?: SxProps;
+    sx?: SxProps;
+    toolbarStyle?: SxProps;
+    toolbarLabelStyle?: SxProps;
+    collapseWrapperStyle?: SxProps;
     rowsPerPageOptions?: number[];
     stickyHeader?: boolean;
-    tableContainerSx?: SxProps;
+    tableContainerStyle?: SxProps;
 }
 export default function ComplexDataTable<T>(props: ComplexTableProps<T>): React.JSX.Element;
 export {};
