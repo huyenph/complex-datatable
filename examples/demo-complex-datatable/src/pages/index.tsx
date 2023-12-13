@@ -350,9 +350,11 @@ export default function Home() {
   const renderCollapseTableHeader = () => {
     return (
       <Typography
-        sx={{
-          paddingY: 5,
-        }}
+        sx={
+          {
+            // paddingY: 5,
+          }
+        }
       >
         Hello
       </Typography>
@@ -406,6 +408,9 @@ export default function Home() {
           // selected={selected}
           // setSelected={setSelected}
           toolbarLabel="Complex Table Toolbar"
+          collapseWrapperStyle={{
+            backgroundColor: 'gray',
+          }}
         />
       </main>
     </>
