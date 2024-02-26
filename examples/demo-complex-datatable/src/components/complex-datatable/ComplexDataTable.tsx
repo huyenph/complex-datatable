@@ -1,4 +1,4 @@
-import React, { useState, useMemo, ReactNode, ChangeEvent } from 'react';
+import React, { useState, useMemo, ReactNode, ChangeEvent, Fragment } from 'react';
 import { alpha } from '@mui/material/styles';
 import {
   Box,
@@ -359,7 +359,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
               const labelId = `Complex-table-checkbox-${index}`;
 
               return (
-                <>
+                <Fragment key={`root-${index}`}>
                   <TableRow
                     hover
                     onClick={(event) => onHandleRowClick(event, `${(row as any).id}`)}
@@ -373,7 +373,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                     }}
                   >
                     {enableSelected && (
-                      <StyledTableCell padding="checkbox">
+                      <StyledTableCell key={`checkbox-${(row as any).id}`} padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
@@ -444,7 +444,7 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                       </StyledCollapseTableCell>
                     </TableRow>
                   )}
-                </>
+                </Fragment>
               );
             })}
             {emptyRows > 0 && (
