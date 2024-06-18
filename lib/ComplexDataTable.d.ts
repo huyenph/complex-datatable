@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { SxProps } from '@mui/material';
+import { SxProps } from '@mui/material/styles';
 import { HeadCell } from './types';
 interface ComplexTableProps<T> {
     defaultKey: string;
