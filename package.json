@@ -1,6 +1,6 @@
 {
   "name": "complex-datatable",
-  "version": "0.3.7",
+  "version": "0.4.0",
   "description": "Mui Data table with complex options",
   "main": "lib/index.js",
   "types": "lib/index.d.js",
@@ -40,7 +40,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

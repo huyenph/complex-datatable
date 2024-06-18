@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Avatar, AvatarGroup, Chip, Grid, IconButton, Tooltip, Typography } from '@mui/material';
-import { AssignmentLateOutlined, AssignmentTurnedInOutlined, Done } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import styles from '@/styles/Home.module.css';
 import { CourseName, Instructor, OfflineClass, OfflineClassChild } from '../types';
@@ -292,29 +291,17 @@ export default function Home() {
   };
 
   const renderAttendance = (type: string) => {
-    return (
-      <Chip
-        icon={<Done style={{ color: 'white' }} />}
-        color="success"
-        label={type}
-        style={{ color: 'white' }}
-        size="small"
-      />
-    );
+    return <Chip color="success" label={type} style={{ color: 'white' }} size="small" />;
   };
 
   const renderAttendanceAction = () => {
     return (
       <>
         <Tooltip title={'Mark as absent'}>
-          <IconButton aria-label="" color="error">
-            <AssignmentLateOutlined />
-          </IconButton>
+          <IconButton aria-label="" color="error"></IconButton>
         </Tooltip>
         <Tooltip title={'Mark as present'}>
-          <IconButton aria-label="" color="error">
-            <AssignmentTurnedInOutlined />
-          </IconButton>
+          <IconButton aria-label="" color="error"></IconButton>
         </Tooltip>
       </>
     );

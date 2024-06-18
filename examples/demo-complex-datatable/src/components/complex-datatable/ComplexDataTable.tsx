@@ -1,22 +1,18 @@
 import React, { useState, useMemo, ReactNode, ChangeEvent, Fragment } from 'react';
-import { alpha } from '@mui/material/styles';
-import {
-  Box,
-  Table,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-  Toolbar,
-  Typography,
-  Checkbox,
-  Card,
-  IconButton,
-  Collapse,
-  SxProps,
-} from '@mui/material';
-import { KeyboardArrowDown } from '@mui/icons-material';
+import { alpha, SxProps } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Checkbox from '@mui/material/Checkbox';
+import Card from '@mui/material/Card';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
 import { visuallyHidden } from '@mui/utils';
 import { HeadCell } from './types';
 import { StyledTableBody, StyledTableCell, StyledCollapseTableCell } from './styles';
@@ -397,8 +393,15 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                             }));
                           }}
                         >
-                          <KeyboardArrowDown
-                            sx={{
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            style={{
+                              height: 14,
+                              width: 14,
                               transform: isOpenCollapse[(row as any).id]
                                 ? 'rotate(180deg)'
                                 : 'rotate(0deg)',
@@ -407,7 +410,13 @@ export default function ComplexDataTable<T>(props: ComplexTableProps<T>) {
                               transitionProperty: 'transform',
                               pointerEvents: 'none',
                             }}
-                          />
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                            />
+                          </svg>
                         </IconButton>
                       </StyledTableCell>
                     )}
